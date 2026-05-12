@@ -1,0 +1,149 @@
+
+<style>
+  .wrap { font-family: var(--font-sans); padding: 1.5rem 0; max-width: 680px; }
+  .rpt-header { border-bottom: 0.5px solid var(--color-border-tertiary); padding-bottom: 1rem; margin-bottom: 1.25rem; }
+  .rpt-meta { font-size: 11px; color: var(--color-text-tertiary); margin: 0 0 0.2rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .rpt-title { font-size: 20px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 0.2rem; }
+  .rpt-sub { font-size: 13px; color: var(--color-text-secondary); margin: 0; }
+
+  .summary-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 1.5rem; }
+  .mc { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 0.75rem; }
+  .mc-label { font-size: 11px; color: var(--color-text-secondary); margin: 0 0 0.2rem; text-transform: uppercase; letter-spacing: 0.04em; }
+  .mc-team { font-size: 14px; font-weight: 500; color: var(--color-text-primary); margin: 0 0 0.5rem; }
+  .bar-track { background: var(--color-border-tertiary); border-radius: 4px; height: 5px; margin-bottom: 3px; overflow: hidden; }
+  .bar-ai { background: #1D9E75; border-radius: 4px; height: 5px; }
+  .bar-man { background: #7F77DD; border-radius: 4px; height: 5px; }
+  .pct-row { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 3px; color: var(--color-text-secondary); }
+  .pct-ai { color: #0F6E56; font-weight: 500; }
+  .pct-man { color: #3C3489; font-weight: 500; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 3px; vertical-align: middle; }
+  .dot-a { background: #1D9E75; }
+  .dot-m { background: #7F77DD; }
+
+  .team-card { background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1rem 1.1rem; margin-bottom: 0.75rem; }
+  .tc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .tc-name { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin: 0; }
+  .badge { font-size: 11px; padding: 2px 9px; border-radius: var(--border-radius-md); font-weight: 500; }
+  .b-design { background: #E6F1FB; color: #185FA5; }
+  .b-product { background: #EAF3DE; color: #3B6D11; }
+  .b-dev { background: #EEEDFE; color: #534AB7; }
+  .b-qa { background: #FAECE7; color: #993C1D; }
+  .split-bar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; margin-bottom: 0.35rem; }
+  .seg-ai { background: #1D9E75; }
+  .seg-man { background: #7F77DD; }
+  .split-labels { display: flex; justify-content: space-between; font-size: 11px; margin-bottom: 0.75rem; }
+  .lbl-ai { color: #0F6E56; }
+  .lbl-man { color: #3C3489; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 0.6rem 0; }
+  .section-title { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; margin: 0 0 0.4rem; }
+  .row { display: flex; align-items: flex-start; gap: 7px; font-size: 12.5px; color: var(--color-text-primary); margin-bottom: 0.3rem; line-height: 1.45; }
+  .row-muted { color: var(--color-text-secondary); }
+  .footer { font-size: 11px; color: var(--color-text-tertiary); border-top: 0.5px solid var(--color-border-tertiary); padding-top: 0.75rem; margin-top: 1rem; }
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">AI adoption performance report by team</h2>
+  <div class="rpt-header">
+    <p class="rpt-meta">Internal report · May 2026</p>
+    <h1 class="rpt-title">AI Adoption Performance Report</h1>
+    <p class="rpt-sub">Team-wise breakdown of AI vs manual work and reasons for manual effort</p>
+  </div>
+
+  <div class="summary-grid">
+    <div class="mc">
+      <p class="mc-label">Team</p>
+      <p class="mc-team">Design</p>
+      <div class="pct-row"><span><span class="dot dot-a"></span>AI</span><span class="pct-ai">80%</span></div>
+      <div class="bar-track"><div class="bar-ai" style="width:80%"></div></div>
+      <div class="pct-row"><span><span class="dot dot-m"></span>Manual</span><span class="pct-man">20%</span></div>
+      <div class="bar-track"><div class="bar-man" style="width:20%"></div></div>
+    </div>
+    <div class="mc">
+      <p class="mc-label">Team</p>
+      <p class="mc-team">Product</p>
+      <div class="pct-row"><span><span class="dot dot-a"></span>AI</span><span class="pct-ai">90%</span></div>
+      <div class="bar-track"><div class="bar-ai" style="width:90%"></div></div>
+      <div class="pct-row"><span><span class="dot dot-m"></span>Manual</span><span class="pct-man">10%</span></div>
+      <div class="bar-track"><div class="bar-man" style="width:10%"></div></div>
+    </div>
+    <div class="mc">
+      <p class="mc-label">Team</p>
+      <p class="mc-team">Development</p>
+      <div class="pct-row"><span><span class="dot dot-a"></span>AI</span><span class="pct-ai">70%</span></div>
+      <div class="bar-track"><div class="bar-ai" style="width:70%"></div></div>
+      <div class="pct-row"><span><span class="dot dot-m"></span>Manual</span><span class="pct-man">30%</span></div>
+      <div class="bar-track"><div class="bar-man" style="width:30%"></div></div>
+    </div>
+    <div class="mc">
+      <p class="mc-label">Team</p>
+      <p class="mc-team">QA</p>
+      <div class="pct-row"><span><span class="dot dot-a"></span>AI</span><span class="pct-ai">70%</span></div>
+      <div class="bar-track"><div class="bar-ai" style="width:70%"></div></div>
+      <div class="pct-row"><span><span class="dot dot-m"></span>Manual</span><span class="pct-man">30%</span></div>
+      <div class="bar-track"><div class="bar-man" style="width:30%"></div></div>
+    </div>
+  </div>
+
+  <!-- Design -->
+  <div class="team-card">
+    <div class="tc-header">
+      <p class="tc-name"><i class="ti ti-brush" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:6px;"></i>Design Team</p>
+      <span class="badge b-design">80% AI · 20% Manual</span>
+    </div>
+    <div class="split-bar"><div class="seg-ai" style="width:80%"></div><div class="seg-man" style="width:20%"></div></div>
+    <div class="split-labels"><span class="lbl-ai">80% AI</span><span class="lbl-man">20% manual</span></div>
+    <p class="section-title">AI work</p>
+    <div class="row row-muted"><i class="ti ti-check" style="font-size:13px;color:#1D9E75;margin-top:2px;" aria-hidden="true"></i>PRD-to-design audit, business logic gap analysis, Claude vs hand-design comparison, Figma MCP + design system setup</div>
+    <hr class="divider">
+    <p class="section-title">Why 20% was manual</p>
+    <div class="row"><i class="ti ti-point" style="font-size:13px;color:var(--color-text-tertiary);margin-top:2px;" aria-hidden="true"></i>Resolving existing design comments and fine-tuning UI details requiring subjective creative judgment</div>
+  </div>
+
+  <!-- Product -->
+  <div class="team-card">
+    <div class="tc-header">
+      <p class="tc-name"><i class="ti ti-layout-grid" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:6px;"></i>Product Team</p>
+      <span class="badge b-product">90% AI · 10% Manual</span>
+    </div>
+    <div class="split-bar"><div class="seg-ai" style="width:90%"></div><div class="seg-man" style="width:10%"></div></div>
+    <div class="split-labels"><span class="lbl-ai">90% AI</span><span class="lbl-man">10% manual</span></div>
+    <p class="section-title">AI work</p>
+    <div class="row row-muted"><i class="ti ti-check" style="font-size:13px;color:#1D9E75;margin-top:2px;" aria-hidden="true"></i>PRD creation, task management via ClickUp MCP, user problem definition and solution structuring</div>
+    <hr class="divider">
+    <p class="section-title">Why 10% was manual</p>
+    <div class="row"><i class="ti ti-point" style="font-size:13px;color:var(--color-text-tertiary);margin-top:2px;" aria-hidden="true"></i>Internal meetings for task alignment, stakeholder messaging, and cross-team consensus — requiring human collaboration</div>
+  </div>
+
+  <!-- Dev -->
+  <div class="team-card">
+    <div class="tc-header">
+      <p class="tc-name"><i class="ti ti-code" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:6px;"></i>Development Team</p>
+      <span class="badge b-dev">70% AI · 30% Manual</span>
+    </div>
+    <div class="split-bar"><div class="seg-ai" style="width:70%"></div><div class="seg-man" style="width:30%"></div></div>
+    <div class="split-labels"><span class="lbl-ai">70% AI</span><span class="lbl-man">30% manual</span></div>
+    <p class="section-title">AI work</p>
+    <div class="row row-muted"><i class="ti ti-check" style="font-size:13px;color:#1D9E75;margin-top:2px;" aria-hidden="true"></i>Feature development via Claude Code, automation R&D and infrastructure planning</div>
+    <hr class="divider">
+    <p class="section-title">Why 30% was manual</p>
+    <div class="row"><i class="ti ti-point" style="font-size:13px;color:var(--color-text-tertiary);margin-top:2px;" aria-hidden="true"></i>Urgent client-facing bug fixes requiring immediate intervention to protect client satisfaction</div>
+    <div class="row"><i class="ti ti-point" style="font-size:13px;color:var(--color-text-tertiary);margin-top:2px;" aria-hidden="true"></i>Team discussions on AI adoption challenges, workflow change management, and developer alignment</div>
+  </div>
+
+  <!-- QA -->
+  <div class="team-card">
+    <div class="tc-header">
+      <p class="tc-name"><i class="ti ti-checkup-list" aria-hidden="true" style="font-size:15px;vertical-align:-2px;margin-right:6px;"></i>QA Team</p>
+      <span class="badge b-qa">70% AI · 30% Manual</span>
+    </div>
+    <div class="split-bar"><div class="seg-ai" style="width:70%"></div><div class="seg-man" style="width:30%"></div></div>
+    <div class="split-labels"><span class="lbl-ai">70% AI</span><span class="lbl-man">30% manual</span></div>
+    <p class="section-title">AI work</p>
+    <div class="row row-muted"><i class="ti ti-check" style="font-size:13px;color:#1D9E75;margin-top:2px;" aria-hidden="true"></i>Jobseeker site automation — 100 test cases, upgraded from basic JS Page Object Model to advanced TypeScript POM with self-healing capabilities</div>
+    <hr class="divider">
+    <p class="section-title">Why 30% was manual</p>
+    <div class="row"><i class="ti ti-point" style="font-size:13px;color:var(--color-text-tertiary);margin-top:2px;" aria-hidden="true"></i>Client-end issues introduced test instability — QA had to manually verify and triage as the team was still building confidence in Claude's ability to resolve environment-specific failures autonomously</div>
+  </div>
+
+  <p class="footer">Prepared for MD review · May 2026 · Manual work reflects tasks where human judgment, client relationships, or real-time collaboration were essential.</p>
+</div>
