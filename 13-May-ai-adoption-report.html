@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily AI Report – 13 May 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f2f1ed;
+    --surface: #ffffff;
+    --surface2: #ebebe5;
+    --border: rgba(0,0,0,0.09);
+    --text-primary: #1a1917;
+    --text-secondary: #6b6960;
+    --text-muted: #9b9890;
+    --ai-color: #1a7a5e;
+    --ai-bar: #1fba7e;
+    --manual-color: #5c3fa8;
+    --manual-bar: #8b6ddd;
+    --radius: 14px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-header {
+    background: #1a1917;
+    color: #fff;
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.6rem;
+  }
+  .page-header h1 {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.45);
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.75rem 1.25rem 4rem;
+  }
+
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-bottom: 1.75rem;
+  }
+  .sc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 0.9rem;
+  }
+  .sc-label {
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.2rem;
+  }
+  .sc-team {
+    font-size: 13.5px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.55rem;
+  }
+  .pr {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    margin-bottom: 3px;
+    color: var(--text-secondary);
+  }
+  .pr .va { color: var(--ai-color); font-weight: 600; }
+  .pr .vm { color: var(--manual-color); font-weight: 600; }
+  .bt { height: 4px; background: var(--surface2); border-radius: 3px; margin-bottom: 4px; overflow: hidden; }
+  .bfa { height: 4px; background: var(--ai-bar); border-radius: 3px; }
+  .bfm { height: 4px; background: var(--manual-bar); border-radius: 3px; }
+  .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 4px; vertical-align: middle; }
+  .da { background: var(--ai-bar); }
+  .dm { background: var(--manual-bar); }
+
+  /* pending card style */
+  .sc-pending {
+    background: #fafaf7;
+    border: 1px dashed rgba(0,0,0,0.15);
+    border-radius: var(--radius);
+    padding: 0.9rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .sc-pending .sc-label { margin-bottom: 0.2rem; }
+  .sc-pending .sc-team { margin-bottom: 0.3rem; }
+  .pending-tag {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: #fff3cd;
+    color: #7a5500;
+    padding: 2px 8px;
+    border-radius: 20px;
+  }
+
+  .tc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 0.75rem;
+  }
+  .tc-pending {
+    background: #fafaf7;
+    border: 1px dashed rgba(0,0,0,0.13);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 0.75rem;
+  }
+  .tc-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+  }
+  .tc-top-pending { margin-bottom: 0.5rem; }
+  .tc-name {
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ic {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .ic-fe { background: #ddeef9; }
+  .ic-be { background: #dff2e6; }
+  .ic-d  { background: #fdeee7; }
+  .ic-p  { background: #eeebf9; }
+  .ic-s  { background: #fff3cd; }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .b-fe { background: #ddeef9; color: #1a5f8a; }
+  .b-be { background: #dff2e6; color: #1a6b3a; }
+  .b-d  { background: #fdeee7; color: #a83a1a; }
+  .b-p  { background: #eeebf9; color: #5c3fa8; }
+  .b-100 { background: #d4f5e9; color: #0e5c3a; }
+  .b-pend { background: #fff3cd; color: #7a5500; }
+
+  .sbar {
+    display: flex; height: 8px;
+    border-radius: 5px; overflow: hidden;
+    margin-bottom: 0.3rem;
+  }
+  .sa { background: var(--ai-bar); }
+  .sm { background: var(--manual-bar); }
+  .slabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    margin-bottom: 0.85rem;
+    font-weight: 500;
+  }
+  .la { color: var(--ai-color); }
+  .lm { color: var(--manual-color); }
+
+  hr.div { border: none; border-top: 1px solid var(--border); margin: 0.65rem 0; }
+
+  .stitle {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .row {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 13px;
+    margin-bottom: 0.3rem;
+    line-height: 1.5;
+  }
+  .row-ai { color: var(--text-secondary); }
+  .row-man { color: var(--text-primary); }
+  .chk { color: var(--ai-color); font-weight: 700; font-size: 12px; margin-top: 1px; flex-shrink: 0; }
+  .rdot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); margin-top: 7px; flex-shrink: 0; }
+
+  .pending-note {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .pending-note strong { color: #7a5500; font-weight: 600; }
+
+  footer {
+    text-align: center;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+    margin-top: 0.5rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 600px) {
+    .summary-grid { grid-template-columns: repeat(2, 1fr); }
+    .tc-top { flex-direction: column; align-items: flex-start; }
+    .page-header { padding: 2rem 1.25rem 1.75rem; }
+  }
+  @media (max-width: 360px) {
+    .summary-grid { gap: 7px; }
+    .sc, .sc-pending { padding: 0.7rem; }
+    .tc, .tc-pending { padding: 1rem; }
+    .tc-name { font-size: 14px; }
+    .row { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <p class="eyebrow">Daily Report · 13 May 2026</p>
+  <h1>AI Performance Report</h1>
+  <p>Team-wise breakdown of AI vs manual work for the day</p>
+</header>
+
+<div class="container">
+
+  <!-- SUMMARY GRID -->
+  <div class="summary-grid">
+    <div class="sc">
+      <p class="sc-label">Team</p>
+      <p class="sc-team">Frontend</p>
+      <div class="pr"><span><span class="dot da"></span>AI</span><span class="va">80%</span></div>
+      <div class="bt"><div class="bfa" style="width:80%"></div></div>
+      <div class="pr"><span><span class="dot dm"></span>Manual</span><span class="vm">20%</span></div>
+      <div class="bt"><div class="bfm" style="width:20%"></div></div>
+    </div>
+    <div class="sc">
+      <p class="sc-label">Team</p>
+      <p class="sc-team">Backend</p>
+      <div class="pr"><span><span class="dot da"></span>AI</span><span class="va">80%</span></div>
+      <div class="bt"><div class="bfa" style="width:80%"></div></div>
+      <div class="pr"><span><span class="dot dm"></span>Manual</span><span class="vm">20%</span></div>
+      <div class="bt"><div class="bfm" style="width:20%"></div></div>
+    </div>
+    <div class="sc">
+      <p class="sc-label">Team</p>
+      <p class="sc-team">Design</p>
+      <div class="pr"><span><span class="dot da"></span>AI</span><span class="va">100%</span></div>
+      <div class="bt"><div class="bfa" style="width:100%"></div></div>
+      <div class="pr"><span><span class="dot dm"></span>Manual</span><span class="vm">0%</span></div>
+      <div class="bt"><div class="bfm" style="width:0%"></div></div>
+    </div>
+    <div class="sc">
+      <p class="sc-label">Team</p>
+      <p class="sc-team">Product</p>
+      <div class="pr"><span><span class="dot da"></span>AI</span><span class="va">80%</span></div>
+      <div class="bt"><div class="bfa" style="width:80%"></div></div>
+      <div class="pr"><span><span class="dot dm"></span>Manual</span><span class="vm">20%</span></div>
+      <div class="bt"><div class="bfm" style="width:20%"></div></div>
+    </div>
+    <div class="sc-pending" style="grid-column: span 4;">
+      <p class="sc-label">Teams</p>
+      <p class="sc-team" style="margin-bottom:0.4rem;">Sales · CRM · Event · Marketing</p>
+      <span class="pending-tag">&#9679; Results expected from tomorrow</span>
+    </div>
+  </div>
+
+  <!-- FRONTEND -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-fe">&#128187;</div>Frontend</div>
+      <span class="badge b-fe">80% AI · 20% Manual</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:80%"></div><div class="sm" style="width:20%"></div></div>
+    <div class="slabels"><span class="la">80% AI</span><span class="lm">20% manual</span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Created online test agent</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Solved Job Fair and other hotfix bugs</div>
+    <hr class="div">
+    <p class="stitle">Why 20% was manual</p>
+    <div class="row row-man"><span class="rdot"></span>Participated in agent creation meeting</div>
+  </div>
+
+  <!-- BACKEND -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-be">&#128307;</div>Backend</div>
+      <span class="badge b-be">80% AI · 20% Manual</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:80%"></div><div class="sm" style="width:20%"></div></div>
+    <div class="slabels"><span class="la">80% AI</span><span class="lm">20% manual</span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Created multi-agent system for Nextjobz</div>
+    <hr class="div">
+    <p class="stitle">Why 20% was manual</p>
+    <div class="row row-man"><span class="rdot"></span>Participated in agent creation meeting</div>
+    <div class="row row-man"><span class="rdot"></span>Feature demo to stakeholders</div>
+  </div>
+
+  <!-- DESIGN -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-d">&#127912;</div>Design</div>
+      <span class="badge b-100">100% AI</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:100%"></div></div>
+    <div class="slabels"><span class="la">100% AI</span><span class="lm"></span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>PRD-to-design workflow executed fully with AI</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Design workflow plan for Claude created</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Partial skill and extension setup completed</div>
+  </div>
+
+  <!-- PRODUCT -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-p">&#128203;</div>Product</div>
+      <span class="badge b-p">80% AI · 20% Manual</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:80%"></div><div class="sm" style="width:20%"></div></div>
+    <div class="slabels"><span class="la">80% AI</span><span class="lm">20% manual</span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Created multi-agent system for PRD generation and PRD review</div>
+    <hr class="div">
+    <p class="stitle">Why 20% was manual</p>
+    <div class="row row-man"><span class="rdot"></span>Participated in agent creation meeting</div>
+    <div class="row row-man"><span class="rdot"></span>Feature demo to stakeholders</div>
+    <div class="row row-man"><span class="rdot"></span>Cross-functional team work acceleration with AI process brief</div>
+  </div>
+
+  <!-- PENDING TEAMS -->
+  <div class="tc-pending">
+    <div class="tc-top tc-top-pending">
+      <div class="tc-name"><div class="ic ic-s">&#128200;</div>Sales · CRM · Event · Marketing</div>
+      <span class="badge b-pend">Planning Phase</span>
+    </div>
+    <p class="pending-note">Teams are currently planning how to integrate AI into their daily workflows. <strong>Results expected from tomorrow.</strong></p>
+  </div>
+
+  <footer>
+    Daily report · 13 May 2026 · asir-next<br>
+    Manual work reflects tasks where human collaboration, stakeholder presence, or real-time decision-making were required.
+  </footer>
+
+</div>
+</body>
+</html>
