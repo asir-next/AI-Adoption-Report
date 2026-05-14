@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team wise AI Adoption Performance – 14 May 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #f2f1ed;
+    --surface: #ffffff;
+    --surface2: #ebebe5;
+    --border: rgba(0,0,0,0.09);
+    --text-primary: #1a1917;
+    --text-secondary: #6b6960;
+    --text-muted: #9b9890;
+    --ai-color: #1a7a5e;
+    --ai-bar: #1fba7e;
+    --manual-color: #5c3fa8;
+    --manual-bar: #8b6ddd;
+    --radius: 14px;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text-primary);
+    min-height: 100vh;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page-header {
+    background: #1a1917;
+    color: #fff;
+    padding: 3rem 1.5rem 2.5rem;
+    text-align: center;
+  }
+  .eyebrow {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 0.6rem;
+  }
+  .page-header h1 {
+    font-size: clamp(1.5rem, 5vw, 2.2rem);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+  .page-header p {
+    font-size: 0.875rem;
+    color: rgba(255,255,255,0.45);
+    max-width: 420px;
+    margin: 0 auto;
+    line-height: 1.55;
+  }
+
+  .container {
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 1.75rem 1.25rem 4rem;
+  }
+
+  .section-label {
+    font-size: 9.5px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.75rem;
+    padding-left: 2px;
+  }
+
+  .tc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 0.75rem;
+  }
+  .tc-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.9rem;
+  }
+  .tc-name {
+    font-size: 15px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .ic {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .ic-fe { background: #ddeef9; }
+  .ic-be { background: #dff2e6; }
+  .ic-p  { background: #eeebf9; }
+  .ic-d  { background: #fdeee7; }
+
+  .badge {
+    font-size: 10px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    white-space: nowrap;
+  }
+  .b-fe  { background: #ddeef9; color: #1a5f8a; }
+  .b-be  { background: #dff2e6; color: #1a6b3a; }
+  .b-p   { background: #eeebf9; color: #5c3fa8; }
+  .b-d   { background: #fdeee7; color: #a83a1a; }
+  .b-100 { background: #d4f5e9; color: #0e5c3a; }
+
+  .sbar {
+    display: flex; height: 8px;
+    border-radius: 5px; overflow: hidden;
+    margin-bottom: 0.3rem;
+  }
+  .sa { background: var(--ai-bar); }
+  .sm { background: var(--manual-bar); }
+  .slabels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 10.5px;
+    margin-bottom: 0.85rem;
+    font-weight: 500;
+  }
+  .la { color: var(--ai-color); }
+  .lm { color: var(--manual-color); }
+
+  hr.div { border: none; border-top: 1px solid var(--border); margin: 0.65rem 0; }
+
+  .stitle {
+    font-size: 9.5px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.4rem;
+  }
+  .row {
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+    font-size: 13px;
+    margin-bottom: 0.3rem;
+    line-height: 1.5;
+  }
+  .row-ai  { color: var(--text-secondary); }
+  .row-man { color: var(--text-primary); }
+  .chk { color: var(--ai-color); font-weight: 700; font-size: 12px; margin-top: 1px; flex-shrink: 0; }
+  .rdot { width: 5px; height: 5px; border-radius: 50%; background: var(--text-muted); margin-top: 7px; flex-shrink: 0; }
+
+  /* Note banner inside each card */
+  .note-banner {
+    background: #fffbe6;
+    border: 1px solid #f0d84a;
+    border-radius: 8px;
+    padding: 0.55rem 0.85rem;
+    margin-top: 0.7rem;
+    font-size: 11.5px;
+    color: #5a4a00;
+    line-height: 1.55;
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+  }
+  .note-icon { font-size: 12px; margin-top: 1px; flex-shrink: 0; }
+
+  /* Pending card */
+  .tc-pending {
+    background: #fafaf7;
+    border: 1px dashed rgba(0,0,0,0.13);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.35rem;
+    margin-bottom: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  .tc-pend-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  .b-pend { background: #fff3cd; color: #7a5500; }
+  .pending-note {
+    font-size: 12.5px;
+    color: var(--text-secondary);
+    line-height: 1.55;
+  }
+  .pending-note strong { color: #7a5500; font-weight: 600; }
+
+  footer {
+    text-align: center;
+    font-size: 10.5px;
+    color: var(--text-muted);
+    letter-spacing: 0.03em;
+    border-top: 1px solid var(--border);
+    padding-top: 1.25rem;
+    margin-top: 1rem;
+    line-height: 1.8;
+  }
+
+  @media (max-width: 600px) {
+    .tc-top { flex-direction: column; align-items: flex-start; }
+    .page-header { padding: 2rem 1.25rem 1.75rem; }
+  }
+  @media (max-width: 360px) {
+    .tc, .tc-pending { padding: 1rem; }
+    .tc-name { font-size: 14px; }
+    .row { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <p class="eyebrow">Daily Report · 14 May 2026</p>
+  <h1>Team wise AI Adoption Performance</h1>
+  <p>How each team is integrating AI into their daily work</p>
+</header>
+
+<div class="container">
+
+  <p class="section-label">Tech Teams</p>
+
+  <!-- FRONTEND -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-fe">&#128187;</div>Frontend</div>
+      <span class="badge b-fe">90% AI · 10% Manual</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:90%"></div><div class="sm" style="width:10%"></div></div>
+    <div class="slabels"><span class="la">90% AI</span><span class="lm">10% manual</span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Agent creation</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>UAT environment setup for testing server</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Online test feature development</div>
+    <hr class="div">
+    <p class="stitle">Why 10% was manual</p>
+    <div class="row row-man"><span class="rdot"></span>Internal team discussion</div>
+    <div class="note-banner"><span class="note-icon">&#128161;</span>This report is on how we are adopting AI on our daily tasks. We are building workflow automation in parallel — this will need some time.</div>
+  </div>
+
+  <!-- BACKEND -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-be">&#128307;</div>Backend</div>
+      <span class="badge b-100">100% AI</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:100%"></div></div>
+    <div class="slabels"><span class="la">100% AI</span><span class="lm"></span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Agent and sub-agent creation</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>R&amp;D on design-to-Claude Code connection</div>
+    <div class="note-banner"><span class="note-icon">&#128161;</span>This report is on how we are adopting AI on our daily tasks. We are building workflow automation in parallel — this will need some time.</div>
+  </div>
+
+  <!-- PRODUCT -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-p">&#128203;</div>Product</div>
+      <span class="badge b-p">80% AI · 20% Manual</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:80%"></div><div class="sm" style="width:20%"></div></div>
+    <div class="slabels"><span class="la">80% AI</span><span class="lm">20% manual</span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Built PRD agent</div>
+    <hr class="div">
+    <p class="stitle">Why 20% was manual</p>
+    <div class="row row-man"><span class="rdot"></span>DevOps discussion regarding server update</div>
+    <div class="row row-man"><span class="rdot"></span>Meeting with external team regarding IP configuration</div>
+    <div class="row row-man"><span class="rdot"></span>Weekly task discussion and update with cross-functional team</div>
+    <div class="note-banner"><span class="note-icon">&#128161;</span>This report is on how we are adopting AI on our daily tasks. We are building workflow automation in parallel — this will need some time.</div>
+  </div>
+
+  <!-- DESIGN -->
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-d">&#127912;</div>Design</div>
+      <span class="badge b-d">60% AI · 40% Manual</span>
+    </div>
+    <div class="sbar"><div class="sa" style="width:60%"></div><div class="sm" style="width:40%"></div></div>
+    <div class="slabels"><span class="la">60% AI</span><span class="lm">40% manual</span></div>
+    <p class="stitle">AI work</p>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Research on agent creation</div>
+    <div class="row row-ai"><span class="chk">&#10003;</span>Existing product design with Claude Design</div>
+    <hr class="div">
+    <p class="stitle">Why 40% was manual</p>
+    <div class="row row-man"><span class="rdot"></span>Building common components for the design system (Job Fair and others)</div>
+    <div class="row row-man"><span class="rdot"></span>R&amp;D on Claude Design and Figma connectivity</div>
+    <div class="note-banner"><span class="note-icon">&#128161;</span>This report is on how we are adopting AI on our daily tasks. We are building workflow automation in parallel — this will need some time.</div>
+  </div>
+
+  <!-- PENDING TEAMS -->
+  <p class="section-label" style="margin-top:0.5rem;">Other Teams</p>
+  <div class="tc-pending">
+    <div class="tc-pend-top">
+      <div class="tc-name" style="font-size:14px;">&#128200;&nbsp; CRM · Sales · Event · Marketing</div>
+      <span class="badge b-pend">Planning Phase</span>
+    </div>
+    <p class="pending-note">Teams are currently planning how to integrate AI into their regular workflows. <strong>Results expected soon.</strong></p>
+  </div>
+
+  <footer>
+    Daily report · 14 May 2026 · Nextjobz<br>
+    Manual work reflects tasks where human collaboration, stakeholder presence, or real-time decision-making were required.
+  </footer>
+
+</div>
+</body>
+</html>
