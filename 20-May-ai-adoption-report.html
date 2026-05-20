@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team wise AI Adoption Performance – 20 May 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f2f1ed; --surface: #ffffff; --surface2: #ebebe5;
+    --border: rgba(0,0,0,0.09); --text-primary: #1a1917;
+    --text-secondary: #6b6960; --text-muted: #9b9890;
+    --ai-color: #1a7a5e; --ai-bar: #1fba7e;
+    --learn-color: #7a5500; --learn-bg: #fffbe6; --learn-border: #f0d84a;
+    --radius: 14px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+  .page-header { background: #1a1917; color: #fff; padding: 3rem 1.5rem 2.5rem; text-align: center; }
+  .eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; }
+  .page-header h1 { font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .page-header p { font-size: 0.875rem; color: rgba(255,255,255,0.45); max-width: 480px; margin: 0 auto; line-height: 1.55; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; width: 100%; }
+
+  .section-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; margin-top: 1.5rem; padding-left: 2px; }
+  .section-label:first-child { margin-top: 0; }
+
+  /* TEAM CARD */
+  .tc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.35rem; margin-bottom: 0.75rem; width: 100%; box-sizing: border-box; }
+  .tc-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .tc-name { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .ic-p { background: #eeebf9; } .ic-fe { background: #ddeef9; } .ic-be { background: #dff2e6; } .ic-d { background: #fdeee7; } .ic-qa { background: #fce8e8; } .ic-app { background: #e8f4e8; }
+  .badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
+  .b-p { background: #eeebf9; color: #5c3fa8; } .b-fe { background: #ddeef9; color: #1a5f8a; } .b-be { background: #dff2e6; color: #1a6b3a; } .b-d { background: #fdeee7; color: #a83a1a; } .b-qa { background: #fce8e8; color: #a81a1a; } .b-app { background: #e8f4e8; color: #1a6b3a; }
+
+  hr.div { border: none; border-top: 1px solid var(--border); margin: 0.75rem 0; }
+
+  .stitle { font-size: 9.5px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.5rem; }
+
+  /* MEMBER ROW */
+  .member { margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .member:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .member-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .row { display: flex; align-items: flex-start; gap: 7px; font-size: 12.5px; color: var(--text-secondary); margin-bottom: 0.25rem; line-height: 1.5; padding-left: 4px; }
+  .chk { color: var(--ai-color); font-weight: 700; font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+
+  /* EFFICIENCY BLOCK */
+  .eff-block { background: var(--learn-bg); border: 1px solid var(--learn-border); border-radius: 8px; padding: 0.75rem 0.9rem; margin-top: 0.75rem; }
+
+  /* MILESTONE */
+  .milestone { background: #1a1917; border-radius: var(--radius); padding: 1.4rem 1.5rem; margin-top: 1.5rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .milestone-icon { width: 36px; height: 36px; background: rgba(31,186,126,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .milestone-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ai-bar); background: rgba(31,186,126,0.12); padding: 2px 9px; border-radius: 20px; margin-bottom: 0.5rem; }
+  .milestone-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 0.4rem; line-height: 1.4; }
+  .milestone-desc { font-size: 12.5px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+  .milestone-desc strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+
+  footer { text-align: center; font-size: 10.5px; color: var(--text-muted); letter-spacing: 0.03em; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 1.5rem; line-height: 1.8; }
+
+  @media (max-width: 600px) {
+    .tc-top { flex-direction: column; align-items: flex-start; }
+    .page-header { padding: 2rem 1.25rem 1.75rem; }
+    .milestone { flex-direction: column; gap: 0.75rem; }
+  }
+  @media (max-width: 360px) { .tc { padding: 1rem; } }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <p class="eyebrow">Daily Report · 20 May 2026</p>
+  <h1>Team wise AI Adoption Performance</h1>
+  <p>What each team did today and how efficiently AI was used</p>
+</header>
+
+<div class="container">
+
+  <!-- ── PRODUCT ── --><!-- ── DESIGN ── -->
+  <p class="section-label">Design</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-d">&#127912;</div>Design Team</div>
+      <span class="badge b-d">50–80% AI</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Tamim <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~70%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Created structured Claude AI workflow for the design process</div>
+      <div class="row"><span class="chk">&#10003;</span>Organized Nextjobz App Figma layers and structure using AI automation</div>
+      <div class="row"><span class="chk">&#10003;</span>Built reusable Nextjobz App components manually within the design system</div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Arif <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~60%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Analysed new PRD with AI and generated design layout</div>
+      <div class="row"><span class="chk">&#10003;</span>Designed Mockup Interview section (50% AI, 50% manual)</div>
+      <div class="row"><span class="chk">&#10003;</span>Redesigned hero section for unregistered users — AI generated, manually applied design system</div>
+      <div class="row"><span class="chk">&#10003;</span>Fixed UI on Jobseeker Job Fair landing page based on updated PRD</div>
+    </div>
+  </div>
+
+  <!-- ── FRONTEND ── -->
+  <p class="section-label">Frontend</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-fe">&#128187;</div>Frontend Team</div>
+      <span class="badge b-fe">75% AI · 25% Manual</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Hasibul <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~75%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>CRM — Generated component structures, layouts, and Formik input wrappers; manually fixed syntax scope leakage and Free CV Service bug</div>
+      <div class="row"><span class="chk">&#10003;</span>Online Test — Structured updates for 8 critical QA hotfixes; manually audited state preservation and refactored timer logic</div>
+      <div class="row"><span class="chk">&#10003;</span>Jobseeker — Generated layout trees and state fields; manually resolved UI regressions and optimized component rendering</div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Tasnim <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~75%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Completed Jobseeker Job Fair landing page development and additional tasks</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── BACKEND ── -->
+  <p class="section-label">Backend</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-be">&#128307;</div>Backend Team</div>
+      <span class="badge b-be">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Suman <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~85%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Built backend service layer for Job Fair Candidate Portal using AI code generation from PRD — endpoints, domain models, DTOs, repository interfaces</div>
+      <div class="row"><span class="chk">&#10003;</span>Deployed merge agent for feature branch → dev pipeline — automated pre-merge checks, CI gating, conflict detection (previously manual)</div>
+      <div class="row"><span class="chk">&#10003;</span>PRD plan review done manually — validated functional and non-functional requirements, flagged ambiguous acceptance criteria</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── APP ── -->
+  <p class="section-label">App Development</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-app">&#128241;</div>App Team</div>
+      <span class="badge b-app">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Tanvir <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~80%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Government Jobs List — API integration with MST state management, pagination, skeleton loader</div>
+      <div class="row"><span class="chk">&#10003;</span>Explore List Screen — Category chip filtering, grid layout for discovery browsing</div>
+      <div class="row"><span class="chk">&#10003;</span>Training List Screen — Course card UI, tab filtering, empty state handling</div>
+      <div class="row"><span class="chk">&#10003;</span>Blog List Page — Article cards with author info, tags, and read time metadata</div>
+      <div class="row"><span class="chk">&#10003;</span>Top Companies Hiring — Company cards with open roles count, follow/unfollow toggle</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── QA ── -->
+  <p class="section-label">Quality Assurance</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-qa">&#9989;</div>QA Team</div>
+      <span class="badge b-qa">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Anik <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~85%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Manual QA across Jobseeker Site, Employer ATS, Exam Site, and ClickUp ticket review</div>
+      <div class="row"><span class="chk">&#10003;</span>Tested Jobseeker Job Fair landing page along with additional tasks</div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── PRODUCT ── -->
+  <p class="section-label">Product</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-p">&#128203;</div>Product Team</div>
+      <span class="badge b-p">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Naimur <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~80%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Building RICE metrics feature prioritization agent</div>
+      <div class="row"><span class="chk">&#10003;</span>WhatsApp Automation Protocol writings</div>
+      <div class="row"><span class="chk">&#10003;</span>Brainstorming on Campus Connect Plan</div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Asir <span style="font-size:10px;font-weight:500;color:#1a7a5e;background:#e6f4ef;padding:1px 7px;border-radius:20px;margin-left:4px;">AI ~80%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Psychometric Test Phase 2 — requirement concept doc</div>
+      <div class="row"><span class="chk">&#10003;</span>Automated Email Plan for user retention — in progress</div>
+      <div class="row"><span class="chk">&#10003;</span>Unique and disruptive event planning for Nextjobz user and trust acquisition</div>
+    </div>
+  </div>
+
+  <!-- MILESTONE -->
+  <div class="milestone">
+    <div class="milestone-icon">&#127932;</div>
+    <div>
+      <span class="milestone-tag">&#9679; Ongoing · Job Fair Pilot</span>
+      <p class="milestone-title">Job Fair Management System — Workflow Automation in Progress</p>
+      <p class="milestone-desc">
+        We are actively building the <strong>Job Fair Management System</strong> as our first fully automated workflow. Issues are appearing as expected — and we are solving them one by one.
+        <br><br>
+        <strong>Entering full automation will take time.</strong> Each learning today brings us a step closer.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Daily report · 20 May 2026 · Nextjobz<br>
+    Manual work reflects tasks where human collaboration, stakeholder presence, or real-time decision-making were required.
+  </footer>
+
+</div>
+</body>
+</html>
