@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Team wise AI Adoption Performance – 21 May 2026</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #f2f1ed; --surface: #ffffff; --surface2: #ebebe5;
+    --border: rgba(0,0,0,0.09); --text-primary: #1a1917;
+    --text-secondary: #6b6960; --text-muted: #9b9890;
+    --ai-color: #1a7a5e; --ai-bar: #1fba7e;
+    --radius: 14px;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text-primary); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+  .page-header { background: #1a1917; color: #fff; padding: 3rem 1.5rem 2.5rem; text-align: center; }
+  .eyebrow { font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.6rem; }
+  .page-header h1 { font-size: clamp(1.5rem, 5vw, 2.2rem); font-weight: 600; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+  .page-header p { font-size: 0.875rem; color: rgba(255,255,255,0.45); max-width: 480px; margin: 0 auto; line-height: 1.55; }
+
+  .container { max-width: 860px; margin: 0 auto; padding: 1.75rem 1.25rem 4rem; width: 100%; }
+
+  .section-label { font-size: 9.5px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; margin-top: 1.5rem; padding-left: 2px; }
+  .section-label:first-child { margin-top: 0; }
+
+  .tc { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.25rem 1.35rem; margin-bottom: 0.75rem; width: 100%; }
+
+  .tc-top { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+  .tc-name { font-size: 15px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+  .ic { width: 30px; height: 30px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+  .ic-p { background: #eeebf9; } .ic-fe { background: #ddeef9; } .ic-be { background: #dff2e6; } .ic-d { background: #fdeee7; } .ic-qa { background: #fce8e8; }
+
+  .badge { font-size: 10px; padding: 3px 10px; border-radius: 20px; font-weight: 600; letter-spacing: 0.02em; white-space: nowrap; }
+  .b-p { background: #eeebf9; color: #5c3fa8; } .b-fe { background: #ddeef9; color: #1a5f8a; } .b-be { background: #dff2e6; color: #1a6b3a; } .b-d { background: #fdeee7; color: #a83a1a; } .b-qa { background: #fce8e8; color: #a81a1a; }
+
+  .member { margin-bottom: 0.75rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--border); }
+  .member:last-child { margin-bottom: 0; padding-bottom: 0; border-bottom: none; }
+  .member-name { font-size: 12px; font-weight: 600; color: var(--text-primary); margin-bottom: 0.35rem; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .ai-pill { font-size: 10px; font-weight: 500; color: #1a7a5e; background: #e6f4ef; padding: 1px 7px; border-radius: 20px; }
+
+  .row { display: flex; align-items: flex-start; gap: 7px; font-size: 12.5px; color: var(--text-secondary); margin-bottom: 0.25rem; line-height: 1.5; padding-left: 4px; }
+  .chk { color: var(--ai-color); font-weight: 700; font-size: 11px; margin-top: 2px; flex-shrink: 0; }
+
+  /* risk block */
+  .risk-block { background: #fff5f5; border: 1px solid #fcc; border-radius: 8px; padding: 0.65rem 0.85rem; margin-top: 0.5rem; }
+  .risk-title { font-size: 9.5px; font-weight: 600; color: #a81a1a; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.4rem; }
+  .risk-row { display: flex; align-items: flex-start; gap: 7px; font-size: 12px; color: #7a1a1a; margin-bottom: 0.25rem; line-height: 1.5; }
+  .rdot-r { width: 5px; height: 5px; border-radius: 50%; background: #e05c5c; margin-top: 6px; flex-shrink: 0; }
+
+  /* milestone */
+  .milestone { background: #1a1917; border-radius: var(--radius); padding: 1.4rem 1.5rem; margin-top: 1.25rem; display: flex; gap: 1rem; align-items: flex-start; }
+  .milestone-icon { width: 36px; height: 36px; background: rgba(31,186,126,0.15); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+  .milestone-tag { display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ai-bar); background: rgba(31,186,126,0.12); padding: 2px 9px; border-radius: 20px; margin-bottom: 0.5rem; }
+  .milestone-title { font-size: 14px; font-weight: 600; color: #fff; margin-bottom: 0.4rem; line-height: 1.4; }
+  .milestone-desc { font-size: 12.5px; color: rgba(255,255,255,0.5); line-height: 1.65; }
+  .milestone-desc strong { color: rgba(255,255,255,0.75); font-weight: 500; }
+
+  footer { text-align: center; font-size: 10.5px; color: var(--text-muted); letter-spacing: 0.03em; border-top: 1px solid var(--border); padding-top: 1.25rem; margin-top: 1.5rem; line-height: 1.8; }
+
+  @media (max-width: 768px) { .container { padding: 1.25rem 1rem 3rem; } .milestone { flex-direction: column; gap: 0.75rem; } }
+  @media (max-width: 600px) { .tc-top { flex-direction: column; align-items: flex-start; } .page-header { padding: 2rem 1rem 1.75rem; } }
+  @media (max-width: 430px) { .page-header h1 { font-size: 1.4rem; } .container { padding: 1rem 0.75rem 3rem; } .tc { padding: 0.9rem 1rem; } .row { font-size: 12px; } .member-name { font-size: 11px; } }
+  @media (max-width: 360px) { .container { padding: 0.85rem 0.65rem 3rem; } .tc { padding: 0.85rem; } }
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <p class="eyebrow">Daily Report · 21 May 2026</p>
+  <h1>Team wise AI Adoption Performance</h1>
+  <p>What each team did today and how efficiently AI was used</p>
+</header>
+
+<div class="container">
+
+  <!-- ── DESIGN ── -->
+  <p class="section-label">Design</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-d">&#127912;</div>Design Team</div>
+      <span class="badge b-d">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Arif <span class="ai-pill">AI ~45%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Fixed pending design inconsistencies across all Job Fair pages to align with Nextjobz design system <em style="font-size:11px;color:var(--text-muted)">(Manual 80% / AI 20%)</em></div>
+      <div class="row"><span class="chk">&#10003;</span>Completed new hero section — fully responsive, mobile-first, ready for dev handoff <em style="font-size:11px;color:var(--text-muted)">(Manual 60% / AI 40%)</em></div>
+      <div class="row"><span class="chk">&#10003;</span>Explored Claude's design system management workflow to streamline Figma-to-engineering handoffs <em style="font-size:11px;color:var(--text-muted)">(AI 75% / Manual 25%)</em></div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Tamim <span class="ai-pill">AI ~65%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Job Fair website feedback implementation and banner design</div>
+      <div class="row"><span class="chk">&#10003;</span>UI audit using Claude AI</div>
+      <div class="row"><span class="chk">&#10003;</span>Organizing app layer structure and refining components with Claude AI + manual optimization</div>
+      <div class="row"><span class="chk">&#10003;</span>Learning to integrate more resources with Claude for better UX output</div>
+    </div>
+  </div>
+
+  <!-- ── FRONTEND ── -->
+  <p class="section-label">Frontend</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-fe">&#128187;</div>Frontend Team</div>
+      <span class="badge b-fe">~70% AI</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Hasibul <span class="ai-pill">AI ~65%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Bug fixes across Jobseeker Profile page, ATS, and CRM Job Fair module — mix of AI-assisted and manual debugging</div>
+      <div class="row"><span class="chk">&#10003;</span>Implemented new feature enhancement on CRM Job Fair module</div>
+      <div class="row"><span class="chk">&#10003;</span>Participated in team discussions on reported tickets, analyzed issues collaboratively and provided fixes</div>
+      <div class="row"><span class="chk">&#10003;</span>Used Claude AI to accelerate issue resolution — manual fixes applied where direct coding was faster and more practical</div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Raihan <span class="ai-pill">AI ~70%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Job Fair UI — Implemented all Jobseeker flow pages from Figma using AI-assisted design (~60% accuracy, 40% manual refinement)</div>
+      <div class="row"><span class="chk">&#10003;</span>Fair Registration — Completed auth and non-auth user registration flow (~80% AI-assisted)</div>
+      <div class="row"><span class="chk">&#10003;</span>Candidate Registration Count and Ticket Download — built with Claude agent for logic, UI, and integration</div>
+    </div>
+  </div>
+
+  <!-- ── BACKEND ── -->
+  <p class="section-label">Backend</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-be">&#128307;</div>Backend Team</div>
+      <span class="badge b-be">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Suman <span class="ai-pill">AI ~70%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>7 commits delivered autonomously — no conflicts, no reverts, zero human intervention</div>
+      <div class="row"><span class="chk">&#10003;</span>ChangeScaffold script, DTO suffix fix (19 files, ~249 lines), int→str column change + migration script</div>
+      <div class="row"><span class="chk">&#10003;</span>Speaker, seminar, FAQ endpoints added; SQL scripts moved to Migration_History; registered candidate list — full stack</div>
+      <div class="risk-block">
+        <p class="risk-title">&#9888;&#65039; 3 Risk Items Flagged for Human Review</p>
+        <div class="risk-row"><span class="rdot-r"></span>int→str column change is a breaking schema change — downstream consumers unverified</div>
+        <div class="risk-row"><span class="rdot-r"></span>DTO bulk rename had no regression run — serialisation contracts unconfirmed</div>
+        <div class="risk-row"><span class="rdot-r"></span>Agent path fix not validated on clean clone / CI environment</div>
+      </div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Anik <span class="ai-pill">AI ~90%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Online Test development — 100% AI</div>
+      <div class="row"><span class="chk">&#10003;</span>Bug fixing across other tasks</div>
+    </div>
+  </div>
+
+  <!-- ── PRODUCT ── -->
+  <p class="section-label">Product</p>
+  <div class="tc">
+    <div class="tc-top">
+      <div class="tc-name"><div class="ic ic-p">&#128203;</div>Product Team</div>
+      <span class="badge b-p">AI Assisted</span>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Naimur <span class="ai-pill">AI ~50%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Job Fair Admin Panel Frontend and Design Review <em style="font-size:11px;color:var(--text-muted)">(Manual)</em></div>
+      <div class="row"><span class="chk">&#10003;</span>LinkedIn Application UAT <em style="font-size:11px;color:var(--text-muted)">(Manual)</em></div>
+      <div class="row"><span class="chk">&#10003;</span>Customer Success SOP Plan <em style="font-size:11px;color:var(--text-muted)">(AI)</em></div>
+    </div>
+
+    <div class="member">
+      <div class="member-name">Asir <span class="ai-pill">AI ~70%</span></div>
+      <div class="row"><span class="chk">&#10003;</span>Data support to team for weekly activity report <em style="font-size:11px;color:var(--text-muted)">(AI)</em></div>
+      <div class="row"><span class="chk">&#10003;</span>PRD and team work review with Claude <em style="font-size:11px;color:var(--text-muted)">(AI)</em></div>
+      <div class="row"><span class="chk">&#10003;</span>Feature improvement plan <em style="font-size:11px;color:var(--text-muted)">(Manual)</em></div>
+    </div>
+  </div>
+
+  <!-- MILESTONE -->
+  <div class="milestone">
+    <div class="milestone-icon">&#127932;</div>
+    <div>
+      <span class="milestone-tag">&#9679; Ongoing · Job Fair Pilot</span>
+      <p class="milestone-title">Job Fair Management System — Workflow Automation in Progress</p>
+      <p class="milestone-desc">
+        We are actively building the <strong>Job Fair Management System</strong> as our first fully automated workflow. Issues are appearing as expected — and we are solving them one by one.
+        <br><br>
+        <strong>Entering full automation will take time.</strong> Each learning today brings us a step closer.
+      </p>
+    </div>
+  </div>
+
+  <footer>
+    Daily report · 21 May 2026 · Nextjobz<br>
+    Manual work reflects tasks where human collaboration, stakeholder presence, or real-time decision-making were required.
+  </footer>
+
+</div>
+</body>
+</html>
